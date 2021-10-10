@@ -16,10 +16,6 @@ public class CashierServiceImpl implements CashierService{
         return cashierRepository.findByUsername(username);
     }
 
-    @Override
-    public Cashier findById(Long id) {
-        return cashierRepository.findById(id).get();
-    }
 
     @Override
     public Cashier findLoggedCashier() {

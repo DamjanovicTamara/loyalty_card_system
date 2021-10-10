@@ -1,12 +1,12 @@
 package com.example.loyaltycardsystem.domain;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="customer_id")
     public Long customerId;
 
     public String name;
@@ -19,10 +19,10 @@ public class Customer {
     @Column(unique = true)
     public Long idNumber;
 
-    public Long totalPoints;
+    public int totalPoints;
 
 
-    public Customer(Long customerId, String name, String surname, Long mobileNumber, Long idNumber, Long totalPoints) {
+    public Customer(Long customerId, String name, String surname, Long mobileNumber, Long idNumber, int totalPoints) {
         this.customerId = customerId;
         this.name = name;
         this.surname = surname;
@@ -74,11 +74,36 @@ public class Customer {
         this.idNumber = idNumber;
     }
 
-    public Long getTotalPoints() {
+    public int getTotalPoints() {
         return totalPoints;
     }
 
-    public void setTotalPoints(Long totalPoints) {
+    public void setTotalPoints(int totalPoints) {
         this.totalPoints = totalPoints;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Customer customer = (Customer) o;
+        return totalPoints == customer.totalPoints && Objects.equals(customerId, customer.customerId) && Objects.equals(name, customer.name) && Objects.equals(surname, customer.surname) && Objects.equals(mobileNumber, customer.mobileNumber) && Objects.equals(idNumber, customer.idNumber);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(customerId, name, surname, mobileNumber, idNumber, totalPoints);
+    }
+
+    @Override
+    public String toString() {
+        return "Customer{" +
+                "customerId=" + customerId +
+                ", name='" + name + '\'' +
+                ", surname='" + surname + '\'' +
+                ", mobileNumber=" + mobileNumber +
+                ", idNumber=" + idNumber +
+                ", totalPoints=" + totalPoints +
+                '}';
     }
 }

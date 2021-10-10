@@ -1,8 +1,12 @@
 package com.example.loyaltycardsystem.service;
 
 import com.example.loyaltycardsystem.domain.Purchase;
+import com.example.loyaltycardsystem.exceptions.PurchaseNotFoundException;
+import com.example.loyaltycardsystem.exceptions.PurchaseServiceException;
 import com.example.loyaltycardsystem.repository.PurchaseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +21,7 @@ public class PurchaseServiceImpl implements PurchaseService{
 
     @Override
     public List<Purchase> findAll() {
-        return purchaseRepository.findAll();
+       return purchaseRepository.findAll();
     }
 
     @Override
@@ -30,10 +34,4 @@ public class PurchaseServiceImpl implements PurchaseService{
         return purchaseRepository.getById(id);
     }
 
-    @Override
-    public Purchase updatePurchase(Purchase purchase) {
-        if(!purchaseRepository.existsById(purchase.getPurchaseId()))
-        return purchaseRepository.save(purchase);
-        else return purchase;
-    }
 }

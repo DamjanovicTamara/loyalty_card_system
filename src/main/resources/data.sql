@@ -15,3 +15,6 @@ insert into customer(customer_id, name, surname,mobile_number,id_number,total_po
 insert into customer(customer_id, name, surname,mobile_number,id_number,total_points) values(2,'test2Customer','test2Surname',99889800,123459,20);
 insert into customer(customer_id, name, surname,mobile_number,id_number,total_points) values(3,'test3Customer','test3Surname',98888800,123333,500);
 insert into customer(customer_id, name, surname,mobile_number,id_number,total_points) values(4,'test4Customer','test4Surname',98009900,123455,100);
+
+insert into purchase(purchase_id, amount, cashier,customer,points,redeem,redeem_amount,saved_on)
+values(1,'100',1,1,1,0,0,CURRENT_TIMESTAMP);

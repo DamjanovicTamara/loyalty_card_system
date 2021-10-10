@@ -1,5 +1,7 @@
-package com.example.loyaltycardsystem;
+package com.example.loyaltycardsystem.configuration;
 
+import com.example.loyaltycardsystem.FlashMessage;
+import com.example.loyaltycardsystem.configuration.MyCustomLoginSuccessHandler;
 import com.example.loyaltycardsystem.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -38,37 +40,11 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     }
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-      /*  auth
-                .inMemoryAuthentication()*/
-      /*  auth.jdbcAuthentication()
-                .dataSource(dataSource)
-                .withDefaultSchema()
-                .withUser("user")
-                .password("{noop}password")
-                .roles("USER")
-                .and()
-                .withUser("admin")
-                .password("{noop}admin")
-                .roles("USER", "ADMIN")
-                .and()
-                .withUser("user1")
-                .password("{noop}password")
-                .roles("USER")
-                .and()
-                .withUser("user2")
-                .password("{noop}password")
-                .roles("USER");*/
         auth.userDetailsService(userService).passwordEncoder(passwordEncoder());
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-      /*  http
-                .authorizeRequests()
-                .anyRequest()
-                .authenticated()
-                .and()
-                .httpBasic();*/
 
         http.authorizeRequests().antMatchers("/").permitAll().and()
                 .authorizeRequests().antMatchers("/console/**").permitAll()
@@ -76,10 +52,12 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST,"/customers/createCustomer").permitAll()//avoid 401 in postman
                 .antMatchers(HttpMethod.GET,"/customers").permitAll()
                 .antMatchers(HttpMethod.GET,"/purchases").permitAll()
-                .antMatchers(HttpMethod.POST,"/purchases/createPurchase").permitAll()
-                .antMatchers(HttpMethod.POST,"/redeemLastPurchase").permitAll()
-                .antMatchers(HttpMethod.GET,"/user").permitAll()
-                .antMatchers(HttpMethod.POST,"/purchases/createPurchasePost").permitAll()
+                .antMatchers(HttpMethod.POST,"/redeemLastPurchase").hasAnyRole()
+                .antMatchers(HttpMethod.POST,"/purchases/createPurchase").hasAnyRole()
+                .antMatchers(HttpMethod.GET,"/purchases/user").authenticated()
+                .antMatchers(HttpMethod.GET,"/customers/getTotalPointsBalance").permitAll()
+                .antMatchers(HttpMethod.GET,"/swagger-ui/**").permitAll()
+
                 .and()
                 .authorizeRequests()
                 .and().
@@ -92,8 +70,9 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .formLogin()
                 .loginPage("/login")
                 .successHandler(loginSuccessHandler())
+             //   .defaultSuccessUrl("/welcome")
                 .permitAll()
-                //.failureUrl("/login.html?error=true")
+                .failureUrl("/login.html?error=true")
                 .failureHandler(loginFailureHandler())
                 .and()
                 .logout()
@@ -122,7 +101,10 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
         };
     }
-
+    @Bean
+    public AuthenticationSuccessHandler successHandler() {
+        return new MyCustomLoginSuccessHandler("/welcome");
+    }
     public AuthenticationFailureHandler loginFailureHandler(){
         return (request, response, exception) -> {
             request.getSession().setAttribute("flash",new FlashMessage("Incorrect username and/or password.Please try again!", FlashMessage.Status.FAILURE));

@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import java.util.Objects;
 
 @Entity
 public class Role {
@@ -28,4 +29,5 @@ public class Role {
     public void setName(String name) {
         this.name = name;
     }
+
 }

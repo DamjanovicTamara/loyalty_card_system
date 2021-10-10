@@ -48,3 +48,14 @@ id INT AUTO_INCREMENT PRIMARY KEY,
 name VARCHAR(250) NOT NULL
 );
 
+DROP TABLE IF EXISTS AUDIT_USER;
+
+CREATE TABLE AUDIT_USER(
+audit_id INT AUTO_INCREMENT PRIMARY KEY,
+cashier_id INT,
+purchase_id INT,
+redeem BOOLEAN,
+redeem_value VARCHAR,
+redeem_amount INT,
+logged_time TIMESTAMP
+);

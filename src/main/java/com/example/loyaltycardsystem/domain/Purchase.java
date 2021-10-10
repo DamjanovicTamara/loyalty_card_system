@@ -2,6 +2,7 @@ package com.example.loyaltycardsystem.domain;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 @Entity
 public class Purchase {
@@ -128,4 +129,19 @@ public class Purchase {
                 ", savedOn=" + savedOn +
                 '}';
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Purchase purchase = (Purchase) o;
+        return points == purchase.points && redeemAmount == purchase.redeemAmount && Objects.equals(purchaseId, purchase.purchaseId) && Objects.equals(amount, purchase.amount) && Objects.equals(cashier, purchase.cashier) && Objects.equals(customer, purchase.customer) && redeem == purchase.redeem && Objects.equals(savedOn, purchase.savedOn);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(purchaseId, amount, cashier, customer, points, redeem, redeemAmount, savedOn);
+    }
+
+
 }

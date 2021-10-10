@@ -8,9 +8,8 @@
 <div style="text-align: center;">
 <form method="get" th:object="${cashierObject}">
     <h2 th:inline="text">Welcome [[${#httpServletRequest.remoteUser}]]</h2>
-    <input type="text" th:value="${cashierObject.cashierId}" />
-    <input type="text"  th:value="${cashierObject.username}" />
-    <!--<input type="text" th:value="${cashier}" />-->
+    <label>Cashier ID:</label><input type="text" th:value="${cashierObject.cashierId}" />
+    <label>Username:</label><input type="text"  th:value="${cashierObject.username}" />
 
 </form>
     <form th:action="@{/logout}" method="post">
