@@ -2,7 +2,8 @@
 Supermarket Loyalty Card System
 
 Spring boot REST API calculate operation of reward and redeem points based on purchase amount.
-API uses Spring security for authentication,Thymeleaf for Login page only, other URL's renders data in  JSON format.
+API uses Spring security for authentication,Thymeleaf for Login page only, other URL's renders data in  JSON format. URL to access H2 In-memory database :
+http://localhost:8080/h2-console
 
 User have an option to login and use below Http requests:
 
@@ -27,7 +28,7 @@ POST http://localhost:8080/redeemLastPurchase -> user has to be authenticated to
 GET http://localhost:8080/customers/getTotalPointsBalance
   Returns total balance points for current customer
 
-  
+
 
 
 
